@@ -1,6 +1,7 @@
 # Project Name
 
 > Project description
+Create a component to display and cycle through pictures for sample AirBnB rental properties.
 
 ## Related Projects
 
