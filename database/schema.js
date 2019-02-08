@@ -80,16 +80,21 @@ const mongoObject = {
   url: '',
   is_primary: false,
 };
+const promises = [];
 
 for (i = 100; i < 200; i += 1) {
   mongoObject.homeId = i;
   mongoObject.url = s3BucketPath + houseList[i % 10];
   mongoObject.is_primary = true;
-  DataModel.create(mongoObject);
+  promises.push(DataModel.create(mongoObject));
   for (j = 1; j < 10; j += 1) {
     mongoObject.homeId = i;
     mongoObject.url = s3BucketPath + otherPicsList[getRandomPic()];
     mongoObject.is_primary = false;
-    DataModel.create(mongoObject);
+    promises.push(DataModel.create(mongoObject));
   }
 }
+
+Promise.all(promises).then(() => {
+  mongoose.connection.close();
+});
