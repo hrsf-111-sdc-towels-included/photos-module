@@ -5,7 +5,7 @@ const db = require('../database/index.js');
 const app = express();
 const port = 3000;
 
-app.use(express.static(path.join(__dirname, 'server/index.js')));
+app.use(express.static(path.join(__dirname, '/../client/dist')));
 
 app.get('/pictures/:homeId', (req, res) => {
   db.getAll((err, data) => {
