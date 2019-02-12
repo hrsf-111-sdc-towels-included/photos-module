@@ -6,12 +6,13 @@ const pictureViewerSchema = new mongoose.Schema({
   homeId: Number,
   url: String,
   is_primary: Boolean,
+  description: String,
 });
 
 const DataModel = mongoose.model('DataModel', pictureViewerSchema);
 
 const getAll = (input, callback) => {
-  DataModel.find(input, (err, data) => {
+  DataModel.find({ homeId: input }, (err, data) => {
     if (err) {
       callback(err);
     } else {
