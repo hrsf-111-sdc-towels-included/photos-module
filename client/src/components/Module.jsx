@@ -105,6 +105,7 @@ class Module extends React.Component {
       showModal: false,
     };
     this.getPics = this.getPics.bind(this);
+    this.sortAndStorePicsArray = this.sortAndStorePicsArray.bind(this);
     this.showPictureCarousel = this.showPictureCarousel.bind(this);
     this.closePictureCarousel = this.closePictureCarousel.bind(this);
   }
@@ -113,11 +114,29 @@ class Module extends React.Component {
     let that = this;
     axios.get(`/pictures/${homeId}`)
     .then(function (response) {
-      that.setState({homeArray: response.data, primaryPic: response.data[0].url})
+      that.setState({homeArray: response.data})
+      that.sortAndStorePicsArray();
     })
     .catch(function (error) {
       console.log(error);
     });
+  }
+
+  sortAndStorePicsArray() {
+    let sortedPicsArray = [];
+    let sortedTextArray = [];
+    let k;
+    for (k = 0; k < this.state.homeArray.length; k += 1) {
+      if (this.state.homeArray[k].is_primary) {
+        sortedPicsArray = [this.state.homeArray[k].url].concat(sortedPicsArray);
+        sortedTextArray = [this.state.homeArray[k].description].concat(sortedTextArray);
+      } else {
+        sortedPicsArray.push(this.state.homeArray[k].url);
+        sortedTextArray.push(this.state.homeArray[k].description);
+      }
+    }
+    this.setState({sortedPicsArray: sortedPicsArray})
+    this.setState({sortedTextArray: sortedTextArray})
   }
 
   showPictureCarousel() {
@@ -129,39 +148,36 @@ class Module extends React.Component {
   }
 
   componentDidMount() {
-    this.getPics(127);
+    this.getPics(165);
   }
   
   render() {
     return (
       <PictureView>
-
-        <PictureCarousel show={this.state.showModal} handleClose={this.closePictureCarousel} />
-
+        <PictureCarousel show={this.state.showModal} handleClose={this.closePictureCarousel} 
+           pics={this.state.sortedPicsArray} texts={this.state.sortedTextArray}/>
         <PrimaryPic>
-          <PictureElement src={this.state.homeArray && this.state.homeArray[0].url}/>
+          <PictureElement src={this.state.sortedPicsArray && this.state.sortedPicsArray[0]}/>
         </PrimaryPic>
         <SecondaryPics>
           <PictureGrid>
-            <PictureElement src={this.state.homeArray && this.state.homeArray[1].url}/>
+            <PictureElement src={this.state.sortedPicsArray && this.state.sortedPicsArray[1]}/>
           </PictureGrid>
           <PictureGrid>
-            <PictureElement src={this.state.homeArray && this.state.homeArray[2].url}/>
+            <PictureElement src={this.state.sortedPicsArray && this.state.sortedPicsArray[2]}/>
           </PictureGrid>
         </SecondaryPics>
         <TertiaryPics>
           <PictureGrid>
-            <PictureElement src={this.state.homeArray && this.state.homeArray[3].url}/>
+            <PictureElement src={this.state.sortedPicsArray && this.state.sortedPicsArray[3]}/>
           </PictureGrid>
           <PictureGrid>
-            <PictureElement src={this.state.homeArray && this.state.homeArray[4].url}/>
+            <PictureElement src={this.state.sortedPicsArray && this.state.sortedPicsArray[4]}/>
           </PictureGrid>
         </TertiaryPics>
-        
         <ShareButton>Share</ShareButton>
         <SaveButton>Save</SaveButton>
         <PicsButton onClick={this.showPictureCarousel}>View Photos</PicsButton>
-
       </PictureView>
     );
   }
