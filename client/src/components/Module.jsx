@@ -46,14 +46,13 @@ const PictureElement = StyledComp.img`
   object-fit: cover;
   width: 100%;
   height: 100%;
-  :hover {
-    opacity: 1;
-    filter: grayscale(0%);
+  &:hover {
+    > ${PictureView} {
+      filter: brightness(35%);
+    }
+    filter: brightness(100%)
   }
-  ${PictureView}:hover & {
-    opacity: 0.4;
-    filter: grayscale(100%);
-  }
+  
 `
 const PicsButton = StyledComp.div`
   border: 1px solid grey;
@@ -103,11 +102,15 @@ class Module extends React.Component {
     super(props);
     this.state = {
       showModal: false,
+      index: 0,
+      oldSliderLocation: '0%',
+      newSliderLocation: '0%',
     };
     this.getPics = this.getPics.bind(this);
     this.sortAndStorePicsArray = this.sortAndStorePicsArray.bind(this);
-    this.showPictureCarousel = this.showPictureCarousel.bind(this);
-    this.closePictureCarousel = this.closePictureCarousel.bind(this);
+    this.showHidePictureCarousel = this.showHidePictureCarousel.bind(this);
+    this.handleClickOnDisplayPic = this.handleClickOnDisplayPic.bind(this);
+    this.scrollPic = this.scrollPic.bind(this);
   }
 
   getPics(homeId) {
@@ -139,45 +142,65 @@ class Module extends React.Component {
     this.setState({sortedTextArray: sortedTextArray})
   }
 
-  showPictureCarousel() {
-    this.setState({showModal: true})
+  showHidePictureCarousel() {
+    this.setState({showModal: !this.state.showModal})
   }
 
-  closePictureCarousel() {
-    this.setState({showModal: false})
+  handleClickOnDisplayPic(event) {
+    this.setState({
+      oldSliderLocation: this.state.index * -100 + '%',
+    });
+    this.setState({
+      index: this.state.sortedPicsArray.indexOf(event.target.src),
+      showModal: true,
+      newSliderLocation: this.state.sortedPicsArray.indexOf(event.target.src) * -100 + '%',
+    });
+  }
+
+  scrollPic(direction) {
+    this.setState({oldSliderLocation: this.state.index * -100 + '%'});
+    if (this.state.index + direction > this.state.sortedPicsArray.length -  1) {
+      this.setState({index: 0, newSliderLocation: '0%'});
+    } else if (this.state.index + direction < 0) {
+      this.setState({index: this.state.sortedPicsArray.length -  1, newSliderLocation: this.state.sortedPicsArray.length -  1 * -100 + '%'});
+    } else {
+      this.setState({index: this.state.index + direction, newSliderLocation: (this.state.index + direction) * -100 + '%'});
+    }
   }
 
   componentDidMount() {
-    this.getPics(165);
+    this.getPics(142);
   }
   
   render() {
     return (
       <PictureView>
-        <PictureCarousel show={this.state.showModal} handleClose={this.closePictureCarousel} 
-           pics={this.state.sortedPicsArray} texts={this.state.sortedTextArray}/>
+        <PictureCarousel show={this.state.showModal} handleClose={this.showHidePictureCarousel} 
+           scrollPic={this.scrollPic} handleClickOnDisplayPic={this.handleClickOnDisplayPic}
+           oldSliderLocation={this.state.oldSliderLocation} newSliderLocation={this.state.newSliderLocation}
+           index={this.state.index} pics={this.state.sortedPicsArray} texts={this.state.sortedTextArray}/>
         <PrimaryPic>
-          <PictureElement src={this.state.sortedPicsArray && this.state.sortedPicsArray[0]}/>
+          <PictureElement src={this.state.sortedPicsArray && this.state.sortedPicsArray[0]} onClick={this.handleClickOnDisplayPic}/>
         </PrimaryPic>
         <SecondaryPics>
           <PictureGrid>
-            <PictureElement src={this.state.sortedPicsArray && this.state.sortedPicsArray[1]}/>
+            <PictureElement src={this.state.sortedPicsArray && this.state.sortedPicsArray[1]} onClick={this.handleClickOnDisplayPic}/>
           </PictureGrid>
           <PictureGrid>
-            <PictureElement src={this.state.sortedPicsArray && this.state.sortedPicsArray[2]}/>
+            <PictureElement src={this.state.sortedPicsArray && this.state.sortedPicsArray[2]} onClick={this.handleClickOnDisplayPic}/>
           </PictureGrid>
         </SecondaryPics>
         <TertiaryPics>
           <PictureGrid>
-            <PictureElement src={this.state.sortedPicsArray && this.state.sortedPicsArray[3]}/>
+            <PictureElement src={this.state.sortedPicsArray && this.state.sortedPicsArray[3]} onClick={this.handleClickOnDisplayPic}/>
           </PictureGrid>
           <PictureGrid>
-            <PictureElement src={this.state.sortedPicsArray && this.state.sortedPicsArray[4]}/>
+            <PictureElement src={this.state.sortedPicsArray && this.state.sortedPicsArray[4]} onClick={this.handleClickOnDisplayPic}/>
           </PictureGrid>
         </TertiaryPics>
         <ShareButton>Share</ShareButton>
         <SaveButton>Save</SaveButton>
-        <PicsButton onClick={this.showPictureCarousel}>View Photos</PicsButton>
+        <PicsButton onClick={this.showHidePictureCarousel}>View Photos</PicsButton>
       </PictureView>
     );
   }
