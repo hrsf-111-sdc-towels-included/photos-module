@@ -1,5 +1,5 @@
 import React from 'react';
-import StyledComp from 'styled-components';
+import StyledComp, { keyframes } from 'styled-components';
 
 const Modal = StyledComp.div`
   position: fixed;
@@ -77,41 +77,32 @@ const ShowHideList = StyledComp.div`
 `
 
 const ThumbnailView = StyledComp.div`
-  visibility: ${props => props.showState ? "visible" : "hidden"};
+  display: ${props => props.showState ? "inline-block" : "none"};
+  vertical-align: middle;
+  white-space: nowrap;
+  overflow-x: hidden;
+  overflow-y: hidden;
+`
+
+const Scroller = (start, finish) => keyframes`
+  from { transform: translate(${start}); }
+  to { transform: translate(${finish}); }
 `
 
 const Thumb = StyledComp.img`
-  width: 10%;
+  width: 15%;
+  animation: ${props => Scroller(props.oldSliderLocation, props.newSliderLocation)} 500ms ease-out forwards;
+  filter: ${props => props.mappedPicIndex === props.selectedPicIndex ? "brightness(100%)" : "brightness(35%)"};
 `
 
 class PictureCarousel extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      index: 0,
       showHideText: 'Show photo list...',
       showHideState: false,
     };
-    this.scrollPicRight = this.scrollPicRight.bind(this);
-    this.scrollPicLeft = this.scrollPicLeft.bind(this);
-    this.manageCarousel = this.manageCarousel.bind(this);
     this.showPicsHidePics = this.showPicsHidePics.bind(this);
-  }
-
-  scrollPicRight() {
-    if (this.state.index < this.props.pics.length - 1) {
-      this.setState({index: this.state.index + 1});
-    } else {
-      this.setState({index: 0});
-    }
-  }
-
-  scrollPicLeft() {
-    if (this.state.index > 0) {
-      this.setState({index: this.state.index - 1});
-    } else {
-      this.setState({index: this.props.pics.length - 1});
-    }
   }
 
   showPicsHidePics() {
@@ -123,32 +114,24 @@ class PictureCarousel extends React.Component {
       this.setState({showHideText: 'Hide photo list...'}) 
     }  
   }
-
-  manageCarousel() {
-    let tuckedArray = [];
-    if (this.state.index < this.props.pics.length - 4) {
-      tuckedArray = this.props.pics.splice(this.state.index, this.state.index + 7)
-    }
-    return tuckedArray;
-  }
   
   render() {
     return (
       <Modal showMe={this.props.show}>
         <CloseButton onClick={this.props.handleClose}> X </CloseButton>
-        <RightButton onClick={this.scrollPicRight}> R </RightButton>
-        <LeftButton onClick={this.scrollPicLeft}> L </LeftButton>
+        <RightButton onClick={this.props.scrollPic.bind(null, 1)}> R </RightButton>
+        <LeftButton onClick={this.props.scrollPic.bind(null, -1)}> L </LeftButton>
         <PicAndDescriptionContainer>
           <CenterPicContainer>
-            <CenterPic src={this.props.pics && this.props.pics[this.state.index]} />
+            <CenterPic src={this.props.pics && this.props.pics[this.props.index]} />
           </CenterPicContainer>
           <DescriptionContainer>
-            <Description>{this.state.index + 1}/{this.props.texts && this.props.texts.length}: {this.props.texts && this.props.texts[this.state.index]}</Description>
+            <Description>{this.props.index + 1}/{this.props.texts && this.props.texts.length}: {this.props.texts && this.props.texts[this.props.index]}</Description>
           </DescriptionContainer>
           <ShowHideListContainer>
             <ShowHideList onClick={this.showPicsHidePics}>{this.state.showHideText}</ShowHideList>
             <ThumbnailView showState={this.state.showHideState}>
-              {this.props.pics && this.props.pics.map((item, index) => <Thumb src={item} key={index} ></Thumb>)}
+              {this.props.pics && this.props.pics.map((item, index) => <Thumb src={item} key={index} mappedPicIndex={index} selectedPicIndex={this.props.index} newSliderLocation={this.props.newSliderLocation} oldSliderLocation={this.props.oldSliderLocation} onClick={this.props.handleClickOnDisplayPic}/>)}
             </ThumbnailView>
           </ShowHideListContainer>
         </PicAndDescriptionContainer>
