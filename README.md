@@ -38,7 +38,9 @@ An `nvmrc` file is included if using [nvm](https://github.com/creationix/nvm).
 From within the root directory:
 
 ```sh
+brew install mongodb
 npm install -g webpack
+npm install -g nodemon
 npm install
 ```
 
