@@ -16,7 +16,13 @@ Create a component to display and cycle through pictures for sample gig-economy/
 
 ## Usage
 
-> Some usage instructions
+Steps to get up and running
+- fork and clone repo
+- initialize an instance of Mongo
+- build some sample data by running 'npm run seed-db'
+- run webpack by 'npm run react-dev'
+- start the server by 'npm start'
+- open a browser to localhost:3000
 
 ## Requirements
 
