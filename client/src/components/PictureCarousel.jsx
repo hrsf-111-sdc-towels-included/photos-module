@@ -7,42 +7,64 @@ const Modal = StyledComp.div`
   background-color: black;
   height: 100%;
   width: 100%;
-  background-color: grey;
+  background-color: #282828;
   z-index: 2;
 `
 
 const CloseButton = StyledComp.div`
   color: white;
   font-size 20pt;
-  right: 80px;
-  top: 80px;
+  right: 35px;
+  top: 15px;
   position: absolute;
-  z-index: 3;
+`
+const CloseButtonIcon = StyledComp.svg`
+  left: 0;
+  top: 0;
+  width: 30px;
+  height: 30px;
+  fill: white;
 `
 
 const RightButton = StyledComp.div`
-  color: white;
-  font-size 20pt;
-  right: 80px;
-  top: 50%;
+  top: 40%;
+  right: 1%;
   position: absolute;
-  z-index: 1;
+`
+const RightButtonIcon = StyledComp.svg`
+  left: 0;
+  top: 0;
+  width: 80px;
+  height: 80px;
+  fill: white;
+  @media (max-width: 600px) {
+    height: 40px;
+    width: 40px;
+  }
 `
 
 const LeftButton = StyledComp.div`
-  color: white;
-  font-size 20pt;
-  left: 80px;
-  top: 50%;
+  top: 40%;
+  left: 1%;
   position: absolute;
-  z-index: 1;
+`
+const LeftButtonIcon = StyledComp.svg`
+  left: 0;
+  top: 0;
+  width: 80px;
+  height: 80px;
+  fill: white;
+  @media (max-width: 600px) {
+    height: 40px;
+    width: 40%;
+  }
 `
 
 const PicAndDescriptionContainer = StyledComp.div`
-  width: 70%;
+  width: 50%;
   height: 100%;
-  margin-left: 15%;
-  margin-right: 15%;
+  margin-left: auto;
+  margin-right: auto;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -63,7 +85,8 @@ const DescriptionContainer = StyledComp.div`
 
 const Description = StyledComp.div`
   color: white;
-  font-size 12pt;
+  font-size 10pt;
+  font-weight: 100;
 `
 
 const ShowHideListContainer = StyledComp.div`
@@ -72,7 +95,8 @@ const ShowHideListContainer = StyledComp.div`
 const ShowHideList = StyledComp.div`
   color: white;
   padding: 10px;
-  font-size: 12pt;
+  font-size: 10pt;
+  font-weight: 100;
   text-align: right;
 `
 
@@ -90,16 +114,19 @@ const Scroller = (start, finish) => keyframes`
 `
 
 const Thumb = StyledComp.img`
-  width: 15%;
+  width: 19%;
+  margin: .5%;
   animation: ${props => Scroller(props.oldSliderLocation, props.newSliderLocation)} 500ms ease-out forwards;
   filter: ${props => props.mappedPicIndex === props.selectedPicIndex ? "brightness(100%)" : "brightness(35%)"};
+  border-left: ${props => props.mappedPicIndex === props.selectedPicIndex ? "solid blue 0px" : "none"};
+  border-right: ${props => props.mappedPicIndex === props.selectedPicIndex ? "solid blue 0px" : "none"};
 `
 
 class PictureCarousel extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      showHideText: 'Show photo list...',
+      showHideText: 'Show photo list\u25bc',
       showHideState: false,
     };
     this.showPicsHidePics = this.showPicsHidePics.bind(this);
@@ -108,19 +135,31 @@ class PictureCarousel extends React.Component {
   showPicsHidePics() {
     if (this.state.showHideState) {
       this.setState({showHideState: false}) 
-      this.setState({showHideText: 'Show photo list...'}) 
+      this.setState({showHideText: 'Show photo list\u25bc'}) 
     } else {
       this.setState({showHideState: true});
-      this.setState({showHideText: 'Hide photo list...'}) 
+      this.setState({showHideText: 'Hide photo list\u25b2'}) 
     }  
   }
   
   render() {
     return (
       <Modal showMe={this.props.show}>
-        <CloseButton onClick={this.props.handleClose}> X </CloseButton>
-        <RightButton onClick={this.props.scrollPic.bind(null, 1)}> R </RightButton>
-        <LeftButton onClick={this.props.scrollPic.bind(null, -1)}> L </LeftButton>
+        <CloseButton onClick={this.props.handleClose}>
+          <CloseButtonIcon viewBox="0 0 64 64">
+            <path d="M28.94 31.79L.61 60.1a2.01 2.01 0 1 0 2.85 2.85L32 34.42l28.54 28.54a2 2 0 0 0 2.85 0c.79-.78.79-2.06 0-2.85L35.06 31.8 63.41 3.44A2.01 2.01 0 1 0 60.56.59L32 29.15 3.44.59A2.01 2.01 0 0 0 .6 3.44l28.35 28.35z"/>
+          </CloseButtonIcon>
+        </CloseButton>
+        <RightButton onClick={this.props.scrollPic.bind(null, 1)}>
+          <RightButtonIcon viewBox="0 0 129 129">
+          <path d="m40.4,121.3c-0.8,0.8-1.8,1.2-2.9,1.2s-2.1-0.4-2.9-1.2c-1.6-1.6-1.6-4.2 0-5.8l51-51-51-51c-1.6-1.6-1.6-4.2 0-5.8 1.6-1.6 4.2-1.6 5.8,0l53.9,53.9c1.6,1.6 1.6,4.2 0,5.8l-53.9,53.9z"/>
+          </RightButtonIcon>
+        </RightButton>
+        <LeftButton onClick={this.props.scrollPic.bind(null, -1)}>
+          <LeftButtonIcon viewBox="0 0 129 129">
+            <path d="m88.6,121.3c0.8,0.8 1.8,1.2 2.9,1.2s2.1-0.4 2.9-1.2c1.6-1.6 1.6-4.2 0-5.8l-51-51 51-51c1.6-1.6 1.6-4.2 0-5.8s-4.2-1.6-5.8,0l-54,53.9c-1.6,1.6-1.6,4.2 0,5.8l54,53.9z"/>
+          </LeftButtonIcon>
+        </LeftButton>
         <PicAndDescriptionContainer>
           <CenterPicContainer>
             <CenterPic src={this.props.pics && this.props.pics[this.props.index]} />
