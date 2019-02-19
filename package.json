@@ -16,15 +16,15 @@
     "test:coverage": "jest --coverage --colors"
   },
   "jest": {
-    "transform": {
-      "^.+\\.jsx?$": "babel-jest"
-    },
     "rootDir": ".",
     "testDirectoryName": "tests",
     "scriptPreprocessor": "<rootDir>/node_modules/babel-jest",
     "unmockedModulePathPatterns": [
       "react"
-    ]
+    ],
+    "verbose": true,
+    "collectCoverage": true,
+    "coverageDirectory": "coverage"
   },
   "dependencies": {
     "axios": "^0.18.0",
