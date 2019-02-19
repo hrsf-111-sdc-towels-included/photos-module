@@ -126,7 +126,7 @@ class PictureCarousel extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      showHideText: 'Show photo list\u25bc',
+      showHideText: 'Show photo list\u25b2',
       showHideState: false,
     };
     this.showPicsHidePics = this.showPicsHidePics.bind(this);
@@ -135,10 +135,10 @@ class PictureCarousel extends React.Component {
   showPicsHidePics() {
     if (this.state.showHideState) {
       this.setState({showHideState: false}) 
-      this.setState({showHideText: 'Show photo list\u25bc'}) 
+      this.setState({showHideText: 'Show photo list\u25b2'}) 
     } else {
       this.setState({showHideState: true});
-      this.setState({showHideText: 'Hide photo list\u25b2'}) 
+      this.setState({showHideText: 'Hide photo list\u25bc'}) 
     }  
   }
   
@@ -170,7 +170,7 @@ class PictureCarousel extends React.Component {
           <ShowHideListContainer>
             <ShowHideList onClick={this.showPicsHidePics}>{this.state.showHideText}</ShowHideList>
             <ThumbnailView showState={this.state.showHideState}>
-              {this.props.pics && this.props.pics.map((item, index) => <Thumb src={item} key={index} mappedPicIndex={index} selectedPicIndex={this.props.index} newSliderLocation={this.props.newSliderLocation} oldSliderLocation={this.props.oldSliderLocation} onClick={this.props.handleClickOnDisplayPic}/>)}
+              {this.props.pics && this.props.pics.map((item, index) => <Thumb src={item} key={index} mappedPicIndex={index} selectedPicIndex={this.props.index} newSliderLocation={this.props.newSliderLocation} oldSliderLocation={this.props.oldSliderLocation} onClick={this.props.handleClickOnCarouselPic}/>)}
             </ThumbnailView>
           </ShowHideListContainer>
         </PicAndDescriptionContainer>
