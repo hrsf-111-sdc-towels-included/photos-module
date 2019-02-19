@@ -204,6 +204,7 @@ class Module extends React.Component {
     this.showHideShareModal = this.showHideShareModal.bind(this);
     this.showHideSaveModal = this.showHideSaveModal.bind(this);
     this.handleClickOnDisplayPic = this.handleClickOnDisplayPic.bind(this);
+    this.handleClickOnCarouselPic = this.handleClickOnCarouselPic.bind(this);
     this.scrollPic = this.scrollPic.bind(this);
     this.generateCarouselLocation = this.generateCarouselLocation.bind(this);
   }
@@ -251,7 +252,18 @@ class Module extends React.Component {
     this.setState({showSaveModal: !this.state.showSaveModal})
   }
 
-  handleClickOnDisplayPic(event) {
+  handleClickOnDisplayPic(i, event) {
+    this.setState({
+      oldSliderLocation: this.generateCarouselLocation(i, 0),
+    });
+    this.setState({
+      index: i,
+      showPictureModal: true,
+      newSliderLocation: this.generateCarouselLocation(i, 0),
+    });
+  }
+
+  handleClickOnCarouselPic(event) {
     this.setState({
       oldSliderLocation: this.generateCarouselLocation(this.state.index, 0),
     });
@@ -284,7 +296,7 @@ class Module extends React.Component {
   }
 
   componentDidMount() {
-    this.getPics(123);
+    this.getPics(144);
     setTimeout(function() {this.setState({wait: false})}.bind(this), 200);
   }
   
@@ -292,28 +304,28 @@ class Module extends React.Component {
     return (
       <PictureView>
         <PictureCarousel show={this.state.showPictureModal} handleClose={this.showHidePictureCarousel} 
-           scrollPic={this.scrollPic} handleClickOnDisplayPic={this.handleClickOnDisplayPic}
+           scrollPic={this.scrollPic} handleClickOnCarouselPic={this.handleClickOnCarouselPic}
            oldSliderLocation={this.state.oldSliderLocation} newSliderLocation={this.state.newSliderLocation}
            index={this.state.index} pics={this.state.sortedPicsArray} texts={this.state.sortedTextArray}/>
         <Share show={this.state.showShareModal} handleClose={this.showHideShareModal}/>
         <Save show={this.state.showSaveModal} handleClose={this.showHideSaveModal}/>
         <PrimaryPic>
-          <PictureElement srcThumb={this.state.sortedThumbsArray && this.state.sortedThumbsArray[0]} srcBig={this.state.sortedPicsArray && this.state.sortedPicsArray[0]} wait={this.state.wait} onClick={this.handleClickOnDisplayPic}/>
+          <PictureElement srcThumb={this.state.sortedThumbsArray && this.state.sortedThumbsArray[0]} srcBig={this.state.sortedPicsArray && this.state.sortedPicsArray[0]} wait={this.state.wait} onClick={this.handleClickOnDisplayPic.bind(null, 0)}/>
         </PrimaryPic>
         <SecondaryPics>
           <PictureGrid>
-            <PictureElement srcThumb={this.state.sortedThumbsArray && this.state.sortedThumbsArray[1]} srcBig={this.state.sortedPicsArray && this.state.sortedPicsArray[1]} wait={this.state.wait} onClick={this.handleClickOnDisplayPic}/>
+            <PictureElement srcThumb={this.state.sortedThumbsArray && this.state.sortedThumbsArray[1]} srcBig={this.state.sortedPicsArray && this.state.sortedPicsArray[1]} wait={this.state.wait} onClick={this.handleClickOnDisplayPic.bind(null, 1)}/>
           </PictureGrid>
           <PictureGrid>
-            <PictureElement srcThumb={this.state.sortedThumbsArray && this.state.sortedThumbsArray[2]} srcBig={this.state.sortedPicsArray && this.state.sortedPicsArray[2]} wait={this.state.wait} onClick={this.handleClickOnDisplayPic}/>
+            <PictureElement srcThumb={this.state.sortedThumbsArray && this.state.sortedThumbsArray[2]} srcBig={this.state.sortedPicsArray && this.state.sortedPicsArray[2]} wait={this.state.wait} onClick={this.handleClickOnDisplayPic.bind(null, 2)}/>
           </PictureGrid>
         </SecondaryPics>
         <TertiaryPics>
           <PictureGrid>
-            <PictureElement srcThumb={this.state.sortedThumbsArray && this.state.sortedThumbsArray[3]} srcBig={this.state.sortedPicsArray && this.state.sortedPicsArray[3]} wait={this.state.wait} onClick={this.handleClickOnDisplayPic}/>
+            <PictureElement srcThumb={this.state.sortedThumbsArray && this.state.sortedThumbsArray[3]} srcBig={this.state.sortedPicsArray && this.state.sortedPicsArray[3]} wait={this.state.wait} onClick={this.handleClickOnDisplayPic.bind(null, 3)}/>
           </PictureGrid>
           <PictureGrid>
-            <PictureElement srcThumb={this.state.sortedThumbsArray && this.state.sortedThumbsArray[4]} srcBig={this.state.sortedPicsArray && this.state.sortedPicsArray[4]} wait={this.state.wait} onClick={this.handleClickOnDisplayPic}/>
+            <PictureElement srcThumb={this.state.sortedThumbsArray && this.state.sortedThumbsArray[4]} srcBig={this.state.sortedPicsArray && this.state.sortedPicsArray[4]} wait={this.state.wait} onClick={this.handleClickOnDisplayPic.bind(null, 4)}/>
           </PictureGrid>
         </TertiaryPics>
         <ShareButton onClick={this.showHideShareModal}><ShareButtonIcon viewBox="0 0 477.07 477.07">
