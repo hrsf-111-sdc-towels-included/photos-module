@@ -5,6 +5,7 @@ mongoose.connect('mongodb://localhost/picture-viewer');
 const pictureViewerSchema = new mongoose.Schema({
   homeId: Number,
   url: String,
+  thumb_url: String,
   is_primary: Boolean,
   description: String,
 });
