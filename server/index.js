@@ -5,7 +5,7 @@ const db = require('../database/index.js');
 
 
 const app = express();
-const port = 3000;
+const port = 3001;
 
 app.use(parse.json());
 app.use(express.static(path.join(__dirname, '/../client/dist')));
@@ -20,4 +20,4 @@ app.get('/pictures/:homeId', (req, res) => {
   });
 });
 
-app.listen(port, () => console.log(`Example app listening on port ${port}!`));
+app.listen(port, () => console.log(`Example app listening on port ${port} ${path.url}!`));
