@@ -1,11 +1,13 @@
 import React from 'react';
-import StyledComp, { keyframes } from 'styled-components';
+//import StyledComp, { keyframes } from 'styled-components';
 import axios from 'axios';
 import PictureCarousel from './PictureCarousel.jsx';
 import Share from './Share.jsx';
 import Save from './Save.jsx';
 
-const Fade = () =>  keyframes`
+const StyledComp = window.styled;
+
+const Fade = () =>  window.styled.keyframes`
   0% {
     filter: blur(20px);
   }
