@@ -298,7 +298,8 @@ class Module extends React.Component {
   }
 
   componentDidMount() {
-    this.getPics(144);
+    let homeId = new URLSearchParams(window.location.search).get('homeId');
+    this.getPics(window.location.href.split('?')[1] ? window.location.href.split('?')[1] : 100);
     setTimeout(function() {this.setState({wait: false})}.bind(this), 200);
   }
   
