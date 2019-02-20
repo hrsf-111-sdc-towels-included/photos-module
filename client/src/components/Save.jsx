@@ -1,5 +1,6 @@
 import React from 'react';
-import StyledComp from 'styled-components';
+//import StyledComp from 'styled-components';
+const StyledComp = window.styled;
 
 const SaveModal = StyledComp.div`
   position: fixed;

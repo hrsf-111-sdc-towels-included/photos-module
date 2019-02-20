@@ -1,5 +1,6 @@
 import React from 'react';
-import StyledComp, { keyframes } from 'styled-components';
+//import StyledComp, { keyframes } from 'styled-components';
+const StyledComp = window.styled;
 
 const Modal = StyledComp.div`
   position: fixed;
@@ -108,7 +109,7 @@ const ThumbnailView = StyledComp.div`
   overflow-y: hidden;
 `
 
-const Scroller = (start, finish) => keyframes`
+const Scroller = (start, finish) => window.styled.keyframes`
   from { transform: translate(${start}); }
   to { transform: translate(${finish}); }
 `
