@@ -213,7 +213,7 @@ class Module extends React.Component {
 
   getPics(homeId) {
     let that = this;
-    axios.get(`http://localhost:3001/pictures/${homeId}`)
+    axios.get(`/pictures/${homeId}`)
     .then(function (response) {
       that.setState({homeArray: response.data})
       that.sortAndStorePicsArray();
