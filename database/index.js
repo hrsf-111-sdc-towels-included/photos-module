@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-mongoose.connect('mongodb://localhost/picture-viewer', { useNewUrlParser: true });
+mongoose.connect('mongodb://database:27017/picture-viewer', { useNewUrlParser: true });
 
 const pictureViewerSchema = new mongoose.Schema({
   homeId: Number,
