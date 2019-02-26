@@ -1,6 +1,7 @@
 const express = require('express');
 const path = require('path');
 const parse = require('body-parser');
+const expressStaticGzip = require('express-static-gzip');
 const db = require('../database/index.js');
 
 
@@ -8,7 +9,16 @@ const app = express();
 const port = 3001;
 
 app.use(parse.json());
-app.use(express.static(path.join(__dirname, '/../client/dist')));
+
+// app.use(express.static(path.join(__dirname, '/../client/dist')));
+app.use('/', expressStaticGzip(path.join(__dirname, '/../client/dist'), {
+  enableBrotli: true,
+  customCompressions: [{
+    encodingName: 'deflate',
+    fileExtension: 'zz',
+  }],
+  orderPreference: ['br', 'gz'],
+}));
 
 app.use((req, res, next) => {
   res.append('Access-Control-Allow-Origin', ['*']);
@@ -27,4 +37,4 @@ app.get('/pictures/:homeId', (req, res) => {
   });
 });
 
-app.listen(port, () => console.log(`Example app listening on port ${port} ${path.url}!`));
+app.listen(port, () => console.log(`Example app listening on port ${port}!`));

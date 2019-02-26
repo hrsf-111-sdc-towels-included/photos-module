@@ -6,6 +6,7 @@ const Modal = StyledComp.div`
   position: fixed;
   display: ${props => props.showMe ? "block" : "none"};
   background-color: black;
+  postition: absolute;
   height: 100%;
   width: 100%;
   background-color: #282828;
