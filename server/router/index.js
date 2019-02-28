@@ -10,7 +10,7 @@ router.post('/', (req, res) => {
   res.status(201);
   res.send('Photo was successfully posted.');
 });
-router.put('/', (req, res) => {
+router.put('/:id', (req, res) => {
   res.send(201);
   res.send('Photo was successfully updated.');
 });

@@ -44,7 +44,11 @@ JSON object as listed below:
   * **Code:** 400 Bad Request Error 
     **Content:** `{ error : "Bad Request Error" }`
 
-#### PUT `api/photos`
+#### PUT `api/photos/:id`
+
+##### URL Params
+
+* id (Integer)
 
 ##### Payload Params
 
