@@ -28,11 +28,11 @@ Returns the ID of the photo created in the database.
 
 JSON object as listed below:
 
-| Key           | Type          |
-| ------------- |:-------------:|
-| home_id       | Number        |
-| url           | String        |
-| description   | String        |
+| Key           | Type          | Description          |
+| ------------- |:-------------:| -------------:|
+| home_id       | Number        | The ID that uniquely identifies each home.|
+| photo_url           | String        | The URL to each photo that is listed for the home.|
+| photo_description   | String        | The description string contains details about the photo.|
 
 
 ##### Success Response:
@@ -54,13 +54,13 @@ JSON object as listed below:
 
 JSON object as listed below:
 
-| Key           | Type          |
-| ------------- |:-------------:|
-| home_id       | Number        |
-| url           | String        |
-| description   | String        |
+| Key           | Type          | Description          |
+| ------------- |:-------------:| -------------:|
+| home_id       | Number        | The ID that uniquely identifies each home.|
+| photo_url           | String        | The URL to each photo that is listed for the home.|
+| photo_description   | String        | The description string contains details about the photo.|
 
-  Returns the ID of the photo edited in the database. 
+Returns the ID of the photo edited in the database. 
 
 ##### Success Response:
   
@@ -87,5 +87,7 @@ JSON object as listed below:
 
   * **Code:** 400 Bad Request Error 
     **Content:** `{ error : "Bad Request Error" }`
+
+
 
 
