@@ -22,8 +22,8 @@ class GenerateData extends Stream.Readable {
   }
 
   generateData(houseId) {
-    // let randomPhotos = Math.floor(Math.random() * 6) + 5;
-    for (let i = 0; i < 10; i++) {
+    let randomPhotos = Math.floor(Math.random() * 6) + 5;
+    for (let i = 0; i < randomPhotos; i++) {
       this.buffer += `${houseId},${faker.image.imageUrl()},${faker.commerce.productAdjective()}\n`
 
     }
@@ -43,7 +43,6 @@ class GenerateData extends Stream.Readable {
     }
   }
 }
-
 
 const rs = new GenerateData();
 rs.pipe(ws);
