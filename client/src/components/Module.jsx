@@ -213,10 +213,12 @@ class Module extends React.Component {
 
   getPics(homeId) {
     let that = this;
-    axios.get(`http://ec2-3-84-131-113.compute-1.amazonaws.com/pictures/${homeId}`)
+    console.log('before', this.state.homeArray);
+    axios.get(`http://localhost:4000/pictures/5`)
     .then(function (response) {
       that.setState({homeArray: response.data})
       that.sortAndStorePicsArray();
+      console.log('after', this.state.homeArray);
     })
     .catch(function (error) {
       console.log(error);

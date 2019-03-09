@@ -1,16 +1,18 @@
 const pool = require('./postgresConnection.js');
 
-const fetchPhotos= (id)  => {
-  (async () => {
-    const client = await pool.connect()
-    try {
-      const res = await client.query('SELECT * FROM photos WHERE id = $1', [id])
-      console.log(res)
-      return res;
-    } finally {
-      client.release()
-    }
-  })().catch(e => console.log(e.stack))
+const insertPhotos = (props, callback) => {
+  pool.query('INSERT INTO photos (home_id, photo_url, photo_description) VALUES ($1, $2, $3)', [props.home_id, props.photo_url, props.photo_description], callback);
+}; 
+
+const fetchPhotos = (id, callback) => {
+  pool.query('SELECT * FROM photos WHERE home_id = $1', [id], callback);
+};
+
+const changePhotoDescription = (data, callback) => {
+  pool.query('UPDATE photos SET photo_description = $1 WHERE photo_id = $2)', [data.description, data.id], callback);
 }
 
-module.exports = fetchPhotos;
+const removePhoto = (id, callback) => {
+  pool.query('DELETE FROM photos WHERE photo_id = $1', [id], callback);
+}
+module.exports = {insertPhotos, fetchPhotos, changePhotoDescription, removePhoto};

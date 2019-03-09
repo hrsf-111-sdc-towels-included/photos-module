@@ -1,22 +1,13 @@
 const express = require('express');
 const router = express.Router();
+const controller = require('../../database/controllers');
 
-router.get('/:id', (req, res) => {
-  res.status(200);
-  res.send('Read photo successful.');
-});
+router.get('/:id', controller.sendPhotos)
 
-router.post('/', (req, res) => {
-  res.status(201);
-  res.send('Photo was successfully posted.');
-});
-router.put('/:id', (req, res) => {
-  res.send(201);
-  res.send('Photo was successfully updated.');
-});
-router.delete('/:id', (req, res) => {
-  res.send(200);
-  res.send('Photo was successfully deleted.');
-});
+router.post('/', controller.addPhoto);
+
+router.put('/:id', controller.updatePhoto);
+
+router.delete('/:id', controller.deletePhoto);
 
 module.exports = router;
