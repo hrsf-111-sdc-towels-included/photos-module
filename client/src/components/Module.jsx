@@ -213,12 +213,10 @@ class Module extends React.Component {
 
   getPics(homeId) {
     let that = this;
-    console.log('before', this.state.homeArray);
-    axios.get(`http://localhost:4000/pictures/5`)
+    axios.get(`/pictures/${homeId}`)
     .then(function (response) {
       that.setState({homeArray: response.data})
       that.sortAndStorePicsArray();
-      console.log('after', this.state.homeArray);
     })
     .catch(function (error) {
       console.log(error);
