@@ -4,3 +4,5 @@ package-lock.json
 .DS_Store
 database/config.js
 database/postgresConnection.js 
+newrelic_agent.log
+newrelic.js
